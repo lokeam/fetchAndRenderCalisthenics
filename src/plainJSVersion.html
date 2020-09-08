@@ -11,11 +11,36 @@
   </style>
 
   <nav class="fetch-app__nav">
-    I'm the nav. woot.
+    <div class="fetch-app__version-logo">
+      <img class="fetch-app__version-logo-img" src="./js_logo.svg" alt="javascript logo" />
+    </div>
+    <div class="fetch-app__title">Fetch &amp; Render Calisthenics</div>
   </nav>
 
   <div class="fetch__container">
-    I'm the main container. I hold all the things.
+    <div class="fetch__results">
+      <ul class="fetch__results--left">
+        <li class="fetch__results-item header">
+          <h4 class="header__column-heading">JSON Placeholder</h4>
+          <p class="header__column-subheading">Photos</p>
+        </li>
+        <li class="fetch__results-item">
+          <img class="fetch-results__jp-img" src="#" alt="image alt">
+          <div class="fetch__results__jp-content">
+            <p>json placeholder title here</p>
+          </div>
+        </li>
+      </ul>
+      <ul class="fetch__results--right">
+        <li class="fetch__results-item header">
+          <h4 class="header__column-heading">PokéApi</h4>
+          <p class="header__column-subheading">Pokemon</p>
+        </li>
+        <li class="fetch__results-item hover">
+          <p class="fetch__results-pm-item-name">Pokemon name here</p>
+        </li>
+      </ul>
+    </div>
   </div>
 
   <script>
