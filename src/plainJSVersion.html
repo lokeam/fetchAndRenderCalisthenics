@@ -271,7 +271,7 @@
             let response = await Promise.allSettled( promiseArray );
 
             console.log('testing response: ', response);
-            //UI.processResponseItems(response);
+            UI.processResponseItems(response);
 
           } catch(error) {
             console.log('Promise.allSettled error: ', error);
@@ -279,6 +279,63 @@
         }
         getData();
       };
+
+      static processResponseItems( response ) {
+        response.forEach( arrayElement => {
+          if ( arrayElement.status !== 'rejected') {
+            console.log('response ok, arrayElement.value: ', arrayElement.value);
+            
+            /* Sort responses by api endpoint */
+            if ( arrayElement.value.results ) {
+              console.log('sorting logic, pokemon render');
+              
+              UI.renderPokemonItem( arrayElement.value.results );
+            } else {
+
+              console.log('sorting logic, jsonplaceholder render');
+              //UI.renderJsonPlaceholderItem( arrayElement.value );
+            }
+
+          /* Render an error message if promise rejected */
+          } else {
+            //UI.renderErrorItem;
+          }
+        });
+      };
+
+      static renderPokemonItem(response) {
+        console.log('render pokemon item, response ', response);
+
+        const pmItemMarkup = responseElement => {
+          return `
+            <li class="fetch__results-item hover">
+              <p class="fetch__results-pm-item-name">${responseElement.name}</p>
+            </li>`;
+        }
+
+        /* Template literal fn for creating parent ul */
+        const pmContainerMarkup = listItems => {
+          return `
+            <ul class="fetch__results--right">
+              <li class="fetch__results-item header">
+                <h4 class="header__column-heading">PokéApi</h4>
+                <p class="header__column-subheading">Pokemon</p>
+              </li>
+              ${listItems.join('')}
+            </ul>`
+        };
+
+        /* Build list item markup for each response element */
+        const pmItemArray = response.map( responseElement => pmItemMarkup( responseElement ) );
+
+        /* Insert list item markup into jsonPlaceholderContainerMarkup */
+        const pmContainer = pmContainerMarkup( pmItemArray );
+
+        /* Insert everything into the dom */
+        const fetchResultsParentElement = document.querySelector('.fetch__results');
+        fetchResultsParentElement.insertAdjacentHTML('beforeend', pmContainer);
+      }
+
 
     }
   document.addEventListener('DOMContentLoaded', UI.displayResults);
