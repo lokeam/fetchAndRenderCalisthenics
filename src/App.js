@@ -67,9 +67,59 @@ class RESTService {
 }
 
 /*------ Hooks ------*/
+const useFetch = (endpoint1, endpoint2) => {
+  const [status, setStatus] = useState('idle');
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+      if (!endpoint1 || !endpoint2) return;
+      const fetchData = async () => {
+          setStatus('fetching');
+
+          const RESTCLIENTOne = new RESTService();
+          const RESTCLIENTTwo = new RESTService();
+
+          let promiseArray = [ RESTCLIENTOne.get( JP_URL ), RESTCLIENTTwo.get( PM_URL ) ];
+
+          let data = await Promise.allSettled( promiseArray );
+          console.log('useEffect hook, await data from promise.allSettled: ', data);
+
+          /* Parse all promise data */
+          data.forEach( arrayElement => {
+            if ( arrayElement.status !== 'rejected') {
+              
+              /* Sort responses by api endpoint */
+              if ( arrayElement.value.results ) {
+                console.log('sorting logic, pokemon render');
+                data[1] = arrayElement.value.results
+              } else {
+                console.log('sorting logic, jsonplaceholder render');
+                data[0] = arrayElement.value;
+              }
+  
+            /* Render an error message if promise rejected */
+            } else {
+              console.log('error parsing data, promise rejected for ', arrayElement);
+            }
+          })
+
+          setData(data);
+          setStatus('fetched');
+      };
+
+      fetchData();
+  }, [endpoint1, endpoint2]);
+
+  return { status, data };
+};
 
 /*------ Single Component ------*/
 function App() {
+  const { status, data } = useFetch( JP_URL, PM_URL);
+  console.log(' status: ', status);
+
+  console.log('jpData: ', data);
+
   return (
     <div className="App">
       <nav className="fetch-app__nav">
