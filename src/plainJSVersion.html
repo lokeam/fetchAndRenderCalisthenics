@@ -253,6 +253,37 @@
     }
   }
 
+    class UI {
+      /* Calls both API endpoints and routes response to processResponseItems method */
+      static displayResults() {
+        console.log('displayResults');
+
+        async function getData() {
+          try {
+            const JP_URL = 'https://jsonplaceholder.typicode.com/photos?_start=1&_limit=20';
+            const PM_URL = 'https://pokeapi.co/api/v2/pokemon?limit=20';
+
+            const RESTClientOne = new RESTService();
+            const RESTClientTwo = new RESTService();
+
+            let promiseArray = [ RESTClientOne.get( JP_URL ), RESTClientTwo.get( PM_URL ) ];
+
+            let response = await Promise.allSettled( promiseArray );
+
+            console.log('testing response: ', response);
+            //UI.processResponseItems(response);
+
+          } catch(error) {
+            console.log('Promise.allSettled error: ', error);
+          }
+        }
+        getData();
+      };
+
+    }
+  document.addEventListener('DOMContentLoaded', UI.displayResults);
+
+  const myUI = new UI();
   </script>
 </body>
 </html>
