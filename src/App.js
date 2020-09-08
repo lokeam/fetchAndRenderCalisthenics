@@ -122,12 +122,51 @@ function App() {
 
   return (
     <div className="App">
+      { /* Nav */ }
       <nav className="fetch-app__nav">
         <div className="fetch-app__version-logo">
           <img className="fetch-app__version-logo-img" src={logo} alt="javascript logo" />
         </div>
         <div className="fetch-app__title">Fetch &amp; Render Calisthenics</div>
       </nav>
+
+      { /* Two Column */ }
+      <div className="fetch__container">
+        <div className="fetch__results">
+          
+          { /* JSON Placeholder items */ }
+          <ul className="fetch__results--left">
+            <li key='json-placeholder-api-header-item' className="fetch__results-item header">
+              <h4 className="header__column-heading">JSON Placeholder</h4>
+              <p className="header__column-subheading">Photos</p>
+            </li>
+            { 
+              status === 'fetched' && data[0].map( item =>
+                <li key={item.title} className="fetch__results-item">
+                  <img className="fetch-results__jp-img" src={item.thumbnailUrl} alt={item.title} />
+                  <div className="fetch__results__jp-content">
+                    <p>{item.title}</p>
+                  </div>
+                </li>
+              )
+            }
+          </ul>
+
+          { /* Pokemon items */ }
+          <ul className="fetch__results--right">
+            <li key='pokeapi-header-item' className="fetch__results-item header">
+                <h4 className="header__column-heading">PokéApi</h4>
+                <p className="header__column-subheading">Pokemon</p>
+            </li>
+            { status === 'fetched' && data[1].map( item2 =>
+              <li key={item2.name} className="fetch__results-item hover">
+                <p className="fetch__results-pm-item-name">{item2.name}</p>
+              </li>
+              )
+            }
+          </ul>
+        </div>
+    </div>
     </div>
   );
 }
