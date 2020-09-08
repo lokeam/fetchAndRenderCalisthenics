@@ -20,10 +20,10 @@ Commonalities include:
 ## Setup: React Version
 1. `npm install` all the things.
 
-2. `npm start` to run
+2. `npm start` to run.
 
 ## Setup: Plain JavaScript Version
-1. Open the file using your web browser of choice. That's it.
+1. Open the `src/plainJSVersion.html` file using your web browser of choice. That's it.
 
 ## (Unused) Available Scripts
 In the project directory, you can run:
