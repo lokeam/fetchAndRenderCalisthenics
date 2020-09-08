@@ -7,22 +7,10 @@
 </head>
 <body>
   <style>
-    /* CSS Reset, based on Eric Meyer's CSS Reset 2.0 */
     *,
     :before,
     :after {
       box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Helvetica', sans-serif;
-      font-size: 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 50px 0 50px 0;
-      margin: 0;
     }
 
     h1,
@@ -44,7 +32,17 @@
       padding: 0;
     }
 
-    /* Component styling */
+    body {
+      font-family: 'Helvetica', sans-serif;
+      font-size: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 50px 0 50px 0;
+      margin: 0;
+    }
+
     .fetch-app__nav {
       background-color: #28282a;
       color: #fff;
@@ -177,7 +175,6 @@
       text-transform: capitalize;
     }
   </style>
-
   <nav class="fetch-app__nav">
     <div class="fetch-app__version-logo">
       <img class="fetch-app__version-logo-img" src="./js_logo.svg" alt="javascript logo" />
@@ -186,29 +183,7 @@
   </nav>
 
   <div class="fetch__container">
-    <div class="fetch__results">
-      <ul class="fetch__results--left">
-        <li class="fetch__results-item header">
-          <h4 class="header__column-heading">JSON Placeholder</h4>
-          <p class="header__column-subheading">Photos</p>
-        </li>
-        <li class="fetch__results-item">
-          <img class="fetch-results__jp-img" src="#" alt="image alt">
-          <div class="fetch__results__jp-content">
-            <p>json placeholder title here</p>
-          </div>
-        </li>
-      </ul>
-      <ul class="fetch__results--right">
-        <li class="fetch__results-item header">
-          <h4 class="header__column-heading">PokéApi</h4>
-          <p class="header__column-subheading">Pokemon</p>
-        </li>
-        <li class="fetch__results-item hover">
-          <p class="fetch__results-pm-item-name">Pokemon name here</p>
-        </li>
-      </ul>
-    </div>
+    <div class="fetch__results"></div>
   </div>
 
   <script>
@@ -220,6 +195,9 @@
   
     /**
      * Utilizes XMLHttpRequest to generate and make an XHR request
+     * @param  {?string} resource endpoint to call
+     * @param  {?string} method The XHR request type GET
+     * @return {Promise} resolve/reject result from the call
      */
     _makeRequest(resource = '', method = 'GET') {
       const xhr = new XMLHttpRequest();
@@ -247,13 +225,17 @@
     
    /**
     * Shorthand method for making a GET request
+    * @param {string} resource - endpoint to call
+    * @return {Promise} resolve/reject from the request
     */
     get(resource = '') {
       return this._makeRequest(resource, 'GET');
     }
   }
 
+    /* Builds the two column UI responsible for rendering fetch response data */
     class UI {
+
       /* Calls both API endpoints and routes response to processResponseItems method */
       static displayResults() {
         console.log('displayResults');
@@ -270,7 +252,6 @@
 
             let response = await Promise.allSettled( promiseArray );
 
-            console.log('testing response: ', response);
             UI.processResponseItems(response);
 
           } catch(error) {
@@ -280,10 +261,11 @@
         getData();
       };
 
+      /* Routes the response to the appropriate rendering component fn based on promise status and api endpoint */
       static processResponseItems( response ) {
         response.forEach( arrayElement => {
           if ( arrayElement.status !== 'rejected') {
-            console.log('response ok, arrayElement.value: ', arrayElement.value);
+            // console.log('response ok, arrayElement.value: ', arrayElement.value);
             
             /* Sort responses by api endpoint */
             if ( arrayElement.value.results ) {
@@ -293,15 +275,55 @@
             } else {
 
               console.log('sorting logic, jsonplaceholder render');
-              //UI.renderJsonPlaceholderItem( arrayElement.value );
+              UI.renderJsonPlaceholderItem( arrayElement.value );
             }
 
           /* Render an error message if promise rejected */
           } else {
-            //UI.renderErrorItem;
+            UI.renderErrorItem;
           }
         });
       };
+
+      /*
+        Static render methods responsible for either rendering response data, or printing an error message to the DOM
+      */
+      static renderJsonPlaceholderItem( response ) {
+        console.log('render json placeholder item, response: ', response);
+        
+        /* Template literal fn for creating list item */
+        const jpItemMarkup = responseElement => {
+          return `
+            <li class="fetch__results-item">
+              <img class="fetch-results__jp-img" src="${responseElement.thumbnailUrl}" alt="${responseElement.title}">
+              <div class="fetch__results__jp-content">
+                <p>${responseElement.title}</p>
+              </div>
+            </li>`;
+        }
+
+        /* Template literal fn for creating parent ul */
+        const jpContainerMarkup = listItems => {
+          return `
+            <ul class="fetch__results--left">
+              <li class="fetch__results-item header">
+                <h4 class="header__column-heading">JSON Placeholder</h4>
+                <p class="header__column-subheading">Photos</p>
+              </li>
+              ${listItems.join('')}
+            </ul>`
+        };
+
+        /* Build list item markup for each response element */
+        const jpItemArray = response.map( responseElement => jpItemMarkup( responseElement ) );
+
+        /* Insert list item markup into jsonPlaceholderContainerMarkup */
+        const jpContainer = jpContainerMarkup( jpItemArray );
+
+        /* Insert everything into the dom */
+        const fetchResultsParentElement = document.querySelector('.fetch__results');
+        fetchResultsParentElement.insertAdjacentHTML('afterbegin', jpContainer);
+      }
 
       static renderPokemonItem(response) {
         console.log('render pokemon item, response ', response);
@@ -336,11 +358,14 @@
         fetchResultsParentElement.insertAdjacentHTML('beforeend', pmContainer);
       }
 
+      static renderErrorItem() {
+        console.log('render error item');
+      }
 
     }
-  document.addEventListener('DOMContentLoaded', UI.displayResults);
+    document.addEventListener('DOMContentLoaded', UI.displayResults);
 
-  const myUI = new UI();
+    const myUI = new UI();
   </script>
 </body>
 </html>
