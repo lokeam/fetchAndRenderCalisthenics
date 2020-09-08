@@ -1,38 +1,119 @@
-.App {
-  text-align: center;
+.fetch-app__nav {
+  background-color: #28282a;
+  color: #fff;
+  height: 70px;
+  width: 100%;
+  padding: 0 1.5rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  z-index: 900;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.fetch-app__version-logo {
+  width: 40%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.fetch-app__version-logo-img {
+  width: 50px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+
+.fetch-app__title {
+  text-transform: uppercase;
+  font-weight: 800;
+}
+
+.fetch__container {
+  margin: 50px 0 0 0;
+  width: 900px;
+  height: 100%;
+}
+
+.fetch__results {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.fetch__results--left,
+.fetch__results--right {
+  background-color: #fff;
+  height: 100%;
+  margin: 10px 30px 10px 30px;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(122,123,151,.3);
+  box-shadow: 0 0.46875rem 2.1875rem rgba(59, 62, 102, 0.03),
+  0 0.9375rem 1.40625rem rgba(59, 62, 102, 0.03),
+  0 0.25rem 0.53125rem rgba(59, 62, 102, 0.05),
+  0 0.125rem 0.1875rem rgba(59, 62, 102, 0.03);
+}
+
+.fetch__results-item {
+  display: flex;
+  flex-direction: row;
+  padding: 1.5rem 1.75rem;
+  border-bottom: 1px solid rgba(7,9,25,.125);
+}
+
+.fetch__results-item:last-of-type {
+  border-bottom-right-radius: .75rem;
+  border-bottom-left-radius: .75rem;
+}
+
+.fetch__results--left {
+  width: 60%;
+}
+
+.fetch__results--right {
+  width: 40%;
+}
+
+.fetch__results--right .fetch__results-item.hover {
+  transition: all .2s ease-in-out;
+  transform: scale(1);
+  box-shadow: none;
+}
+
+.fetch__results--right .fetch__results-item.hover:hover {
+  background-color: #fff;
+  border-radius: .65rem;
+  transform: scale(1.08);
+  box-shadow: 0 0.46875rem 2.1875rem rgba(59,62,102,.03),0 0.9375rem 1.40625rem rgba(59,62,102,.03),0 0.25rem 0.53125rem rgba(59,62,102,.05),0 0.125rem 0.1875rem rgba(59,62,102,.03);
+}
+
+.fetch__results-item.header {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.header__column-heading {
+  font-weight: bold;
+  color: #b9b9b9;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.header__column-subheading {
+  padding: 0;
+  margin: 5px 0 5px 0;
+  font-weight: 800;
+}
+
+.fetch-results__jp-img {
+  width: 50px;
+  height: 50px;
+  margin: 0 10px 0 0;
+}
+
+.fetch__results__jp-content,
+.fetch__results-pm-item-name {
+  text-transform: capitalize;
 }

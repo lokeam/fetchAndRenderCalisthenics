@@ -1,24 +1,25 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
+
 import logo from './logo.svg';
 import './App.css';
 
+/*------ Constants ------*/
+
+/*------ Services ------*/
+
+/*------ Hooks ------*/
+
+/*------ Single Component ------*/
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <nav className="fetch-app__nav">
+        <div className="fetch-app__version-logo">
+          <img className="fetch-app__version-logo-img" src={logo} alt="javascript logo" />
+        </div>
+        <div className="fetch-app__title">Fetch &amp; Render Calisthenics</div>
+      </nav>
     </div>
   );
 }
