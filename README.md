@@ -6,11 +6,11 @@ There are two mini apps contained in this repo, one written in vanilla JavaScrip
 
 Commonalities include:
 
-* rendering 20 data points from https://pokeapi.co/ and https://jsonplaceholder.typicode.com/
+* rendering 20 data points from [https://pokeapi.co/](https://pokeapi.co/) and [https://jsonplaceholder.typicode.com/](https://jsonplaceholder.typicode.com/)
 
 * all data points styled in desktop-only two-column format
 
-* all CSS written in BEM format
+* all CSS written in [BEM](http://getbem.com/) format
 
 * fetch requests constructed using a minimal, customized REST client
 
