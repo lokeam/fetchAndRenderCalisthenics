@@ -212,7 +212,47 @@
   </div>
 
   <script>
-    console.log('Script tag am I. Logic I hold. Do or do not, there is not try.');
+    /* construct a REST service for re-usable requests, extensible if other functionality required */
+    class RESTService {
+      constructor() {
+        this._rawResponse = null;
+      }
+  
+    /**
+     * Utilizes XMLHttpRequest to generate and make an XHR request
+     */
+    _makeRequest(resource = '', method = 'GET') {
+      const xhr = new XMLHttpRequest();
+  
+      xhr.open(method, resource, true);
+  
+      return new Promise(function(resolve, reject) {
+        xhr.responseType = 'json';
+  
+        xhr.setRequestHeader('Content-Type', 'application/json');
+  
+        xhr.onload = function(e) {
+          if (xhr.status > 300) {
+            reject('Error, status code: ', xhr.status);
+          } else {
+  
+            // in case we need to save the raw response:
+            this._rawResponse = xhr.response
+            resolve(xhr.response);
+          }
+        }
+        xhr.send();
+      })
+    }
+    
+   /**
+    * Shorthand method for making a GET request
+    */
+    get(resource = '') {
+      return this._makeRequest(resource, 'GET');
+    }
+  }
+
   </script>
 </body>
 </html>
