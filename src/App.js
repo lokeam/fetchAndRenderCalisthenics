@@ -41,7 +41,7 @@ class RESTService {
        console.log('I am error, promise not ok');
        return Promise.reject(json);
      }
-     console.log('returned json: ', json);
+
      return json;
    });
  }
@@ -82,7 +82,6 @@ const useFetch = (endpoint1, endpoint2) => {
           let promiseArray = [ RESTCLIENTOne.get( JP_URL ), RESTCLIENTTwo.get( PM_URL ) ];
 
           let data = await Promise.allSettled( promiseArray );
-          console.log('useEffect hook, await data from promise.allSettled: ', data);
 
           /* Parse all promise data */
           data.forEach( arrayElement => {
@@ -90,10 +89,10 @@ const useFetch = (endpoint1, endpoint2) => {
               
               /* Sort responses by api endpoint */
               if ( arrayElement.value.results ) {
-                console.log('sorting logic, pokemon render');
+
                 data[1] = arrayElement.value.results
               } else {
-                console.log('sorting logic, jsonplaceholder render');
+
                 data[0] = arrayElement.value;
               }
   
@@ -116,9 +115,6 @@ const useFetch = (endpoint1, endpoint2) => {
 /*------ Single Component ------*/
 function App() {
   const { status, data } = useFetch( JP_URL, PM_URL);
-  console.log(' status: ', status);
-
-  console.log('jpData: ', data);
 
   return (
     <div className="App">

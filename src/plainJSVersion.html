@@ -238,7 +238,6 @@
 
       /* Calls both API endpoints and routes response to processResponseItems method */
       static displayResults() {
-        console.log('displayResults');
 
         async function getData() {
           try {
@@ -265,16 +264,13 @@
       static processResponseItems( response ) {
         response.forEach( arrayElement => {
           if ( arrayElement.status !== 'rejected') {
-            // console.log('response ok, arrayElement.value: ', arrayElement.value);
             
             /* Sort responses by api endpoint */
             if ( arrayElement.value.results ) {
-              console.log('sorting logic, pokemon render');
               
               UI.renderPokemonItem( arrayElement.value.results );
             } else {
 
-              console.log('sorting logic, jsonplaceholder render');
               UI.renderJsonPlaceholderItem( arrayElement.value );
             }
 
@@ -289,7 +285,6 @@
         Static render methods responsible for either rendering response data, or printing an error message to the DOM
       */
       static renderJsonPlaceholderItem( response ) {
-        console.log('render json placeholder item, response: ', response);
         
         /* Template literal fn for creating list item */
         const jpItemMarkup = responseElement => {
@@ -326,7 +321,6 @@
       }
 
       static renderPokemonItem(response) {
-        console.log('render pokemon item, response ', response);
 
         const pmItemMarkup = responseElement => {
           return `
